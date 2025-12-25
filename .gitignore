@@ -1,7 +1,6 @@
 pgns
 .mypy_cache
 *.binpack
-*.pgn
 *.pgn.gz
 test
 target
