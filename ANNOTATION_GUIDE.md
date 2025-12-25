@@ -124,16 +124,14 @@ The script should handle:
 
 ### Step 1: Annotate PGN File
 
-```bash
-cd /Users/scchess/Sources/pgn2binpack
-source venv/bin/activate
-python3 annotate_pgn.py game.pgn game_annotated.pgn 20 0.1
-```
+Use one of the annotation options mentioned above to add Stockfish evaluations to your PGN file.
 
-This creates `game_annotated.pgn` with evaluations in the format:
+The annotated PGN should have evaluations in the format:
 ```
 1. e4 { +0.37/16 } 1... d6 { -0.28/16 } 2. d4 { +0.45/17 } ...
 ```
+
+**Note:** A Python annotation script (`annotate_pgn.py`) was previously created but has been removed. You can create a similar script using `python-chess` and Stockfish UCI interface, or use commercial chess software that supports this format.
 
 ### Step 2: Convert to Binpack
 
@@ -157,10 +155,11 @@ cargo build --release
 
 ## Files Created
 
-1. **`annotate_pgn.py`** - Python script for annotating PGN files with Stockfish evaluations
-2. **`annotate_with_stockfish.sh`** - Shell script wrapper (optional)
-3. **`cutechess/`** - Cloned and built Cute Chess repository (for reference)
-4. **`venv/`** - Python virtual environment with python-chess installed
+1. **`annotate_with_stockfish.sh`** - Shell script wrapper (references Python script)
+2. **`cutechess/`** - Cloned and built Cute Chess repository (for reference)
+3. **`venv/`** - Python virtual environment (if python-chess was installed)
+
+**Note:** The `annotate_pgn.py` script has been removed. Users need to create their own annotation solution or use existing chess software.
 
 ## Key Findings
 
@@ -168,14 +167,14 @@ cargo build --release
 
 2. **Format Mismatch**: Lichess PGN format (`[%eval ...]`) is incompatible. Evaluations must be in curly braces (`{+eval/depth}`).
 
-3. **Tool Limitation**: `cutechess-cli` is designed for tournaments, not PGN annotation. The Python script provides the needed functionality.
+3. **Tool Limitation**: `cutechess-cli` is designed for tournaments, not PGN annotation. A custom annotation solution is needed.
 
 4. **Evaluation Format**: The tool expects evaluations in pawns (not centipawns) with depth information, e.g., `{+1.01/26}`.
 
 ## Troubleshooting
 
 ### Stockfish Not Found
-If Stockfish is in a different location, update the `stockfish_path` variable in `annotate_pgn.py`.
+Ensure Stockfish is installed and accessible. On macOS with Homebrew, it's typically at `/opt/homebrew/bin/stockfish`. Update any annotation scripts to use the correct path.
 
 ### Python Module Not Found
 Ensure the virtual environment is activated:
@@ -204,9 +203,11 @@ We successfully:
 1. ✅ Analyzed the pgn2binpack repository and its requirements
 2. ✅ Identified the evaluation format requirements (curly braces)
 3. ✅ Built cutechess-cli from source (for reference)
-4. ✅ Created a Python annotation script using Stockfish
-5. ✅ Successfully annotated a PGN file with the correct format
-6. ✅ Verified the output format is compatible with pgn2binpack
+4. ✅ Tested annotation workflow with Stockfish
+5. ✅ Verified the output format is compatible with pgn2binpack
 
-The annotation workflow is now ready for use with any PGN file that needs Stockfish evaluations added.
+**Current Status:** The annotation script has been removed. Users need to implement their own annotation solution using:
+- Commercial chess software (ChessBase, etc.)
+- Custom Python scripts with python-chess
+- Other chess analysis tools that output the required format
 
